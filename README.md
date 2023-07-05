@@ -13,6 +13,7 @@ To install the application, follow the steps below:
 ### Prerequisites
 - Python 3.x installed on your system (tested with 3.11)
 - pip package manager installed. (It usually comes bundled with Python.)
+- Internet connection to install dependencies 
 ### Steps
 1. Clone the repository or download the source code.
 ```git clone <repository_url>```

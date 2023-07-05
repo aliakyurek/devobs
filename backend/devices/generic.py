@@ -2,7 +2,7 @@
 File: generic.py
 Description:Support for generic device with IP.
 Author: Ali G. Akyurek
-Contact: ali.akyurek@siemens.com
+Contact: aliakyurek@gmail.com
 """
 
 from ..device import Device

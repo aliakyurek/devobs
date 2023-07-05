@@ -2,7 +2,7 @@
 File: common.py
 Description:common content for all modules.
 Author: Ali G. Akyurek
-Contact: ali.akyurek@siemens.com
+Contact: aliakyurek@gmail.com
 """
 
 VERSION = "0.1"

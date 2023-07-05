@@ -2,7 +2,7 @@
 File: device_manager.py
 Description:Loading and enumerating devices.
 Author: Ali G. Akyurek
-Contact: ali.akyurek@siemens.com
+Contact: aliakyurek@gmail.com
 """
 
 from .device import Device, Attributes

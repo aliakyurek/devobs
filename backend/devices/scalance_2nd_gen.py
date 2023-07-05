@@ -2,7 +2,7 @@
 File: scalance_2nd_gen.py
 Description:Support for 2nd generation (MSPS based) Siemens SCALANCE devices.
 Author: Ali G. Akyurek
-Contact: ali.akyurek@siemens.com
+Contact: aliakyurek@gmail.com
 """
 
 from backend.device import Device, Attributes

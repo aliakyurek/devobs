@@ -2,7 +2,7 @@
 File: __init__.py
 Description:Entry point of devices module.
 Author: Ali G. Akyurek
-Contact: ali.akyurek@siemens.com
+Contact: aliakyurek@gmail.com
 """
 
 import pkgutil

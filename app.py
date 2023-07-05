@@ -2,7 +2,7 @@
 File: app.py
 Description:Entry point of application.
 Author: Ali G. Akyurek
-Contact: ali.akyurek@siemens.com
+Contact: aliakyurek@gmail.com
 """
 
 from backend.device_manager import DeviceManager, InvalidDbError
