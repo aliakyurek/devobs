@@ -1,0 +1,18 @@
+db_ver: 0.1
+devices:
+#  - classname: "Scalance2ndGen"
+#    label: "XR552 Development"
+#    comm:
+#      classname: "SSHCommInterface"
+#      username: "admin"
+#      password: "Password123!"
+#      hostname: "120.80.5.52"
+#      port: 22
+#  - classname: "Scalance2ndGen"
+#    label: "XR528 Development"
+#    comm:
+#      classname: "SSHCommInterface"
+#      username: "admin"
+#      password: "Password123!"
+#      hostname: "120.80.5.28"
+#      port: 22
