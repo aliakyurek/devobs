@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Exit immediately if any command exits with a non-zero status
+set -e
+
+# Check the Python version
+if ! python3 --version 2>&1 | grep -q "Python 3"; then
+    echo "Error: Python 3 is required to run this application."
+    exit 1
+fi
+
 # Set the name of your virtual environment
 VENV_NAME="myenv"
 
@@ -13,7 +22,7 @@ DUMMY_FILE="$VENV_PATH/requirements_installed.txt"
 if [ ! -f "$DUMMY_FILE" ]; then
     echo "For first time use, creating virtual environment and installing dependencies."
     # Create the virtual environment
-    python -m venv "$VENV_PATH"
+    python3 -m venv "$VENV_PATH"
 
     # Activate the virtual environment
     source "$VENV_PATH/bin/activate"
@@ -34,10 +43,10 @@ fi
 # Check if verbose mode is enabled
 if [[ "$1" == "-v" ]]; then
     # Run the main.py module within the virtual environment in verbose mode
-    python app.py -v
+    python3 app.py -v
 else
     # Run the main.py module within the virtual environment
-    python app.py
+    python3 app.py
 fi
 
 # Deactivate the virtual environment when finished

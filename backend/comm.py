@@ -11,6 +11,7 @@ import paramiko
 import time
 from paramiko.ssh_exception import *
 import logging
+import sys
 logger = logging.getLogger(__name__)
 logging.getLogger('paramiko').setLevel(logging.CRITICAL + 1)
 
@@ -90,12 +91,14 @@ class SSHCommInterface(TCPCommInterface):
             logger.debug(f"Invoking shell")
             self.shell = self.client.invoke_shell()
             logger.debug(f"SSH shell acquired")
-        except AuthenticationException:
+        except AuthenticationException as e:
             self.stage = CommStage.AUTH_TRY
-        except (SSHException, NoValidConnectionsError, TimeoutError):
-            self.stage = CommStage.PROT_TRY
+            type, msg, traceback = sys.exc_info()
+            logger.debug(f"{type} occured @ {traceback.tb_next.tb_frame}. {msg}")
         except Exception as e:
             self.stage = CommStage.PROT_TRY
+            type, msg, traceback = sys.exc_info()
+            logger.debug(f"{type} occured @ {traceback.tb_next.tb_frame}. {msg}")
         else:
             self.stage = CommStage.PROT_OK
             self.stage = CommStage.AUTH_OK
