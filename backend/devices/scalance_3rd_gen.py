@@ -12,6 +12,7 @@ import re
 
 class Scalance3rdGen(Device):
     __label__ = "SCALANCE 3rd Generation"
+    __supports__ = "SCALANCE XCM300, XRM300"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -19,9 +20,7 @@ class Scalance3rdGen(Device):
                            r"^(.+)\s+chassis\s+Family")
         self.add_attribute(Attributes.FIRMWARE_VERSION, CommStage.AUTH_OK,
                            'show system firmware | until "Running SINEC OS Firmware"',
-                           r"^Running SINEC OS Firmware\s+(\S+)\.00")
-
-
+                           r"^Running SINEC OS Firmware\s+(\S+)")
 
         self.add_attribute(Attributes.SYS_UPTIME,  CommStage.AUTH_OK, "show system state",
                            Scalance3rdGen.parse_sys_uptime)

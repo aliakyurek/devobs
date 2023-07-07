@@ -20,11 +20,14 @@ To install the application, follow the steps below:
 2. Navigate to the project directory
 ```cd <project_directory>```
 3. Adapt the ```data/config.yml``` configuration database file according to the devices in your IP network based on template in the file.
-Ensure that classname fields are correctly set.
+Ensure that classname fields are correctly set. 
+   * Device class names must be based on the name of Python classes inside the files under ```backend/devices/*```
+   * Communication (comm) class names must be based on the name of Python classes under ```backend/comm.py```
+
 4. Start the application by:
 - For Windows: ```devobs.bat ```
 - For Linux:
-  - First, enable execution```chmod +x script.sh``` 
+  - First, enable execution```chmod +x devobs.sh``` 
   - Then run ```./devobs.sh```
 
 ## Visuals
@@ -88,5 +91,6 @@ For problems, ideas, discussions etc. You may contact me at aliakyurek@gmail.com
 ## Contributing
 If you implement new devices, PRs are welcome.
 ## Authors and acknowledgment
+Thanks to Burak Özcan [@ozcanburakk] for test feedback.
 ## License
 MIT

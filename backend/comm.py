@@ -86,7 +86,8 @@ class SSHCommInterface(TCPCommInterface):
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         try:
             logger.debug(f"Establishing SSH communication to {self.hostname}")
-            self.client.connect(self.hostname, self.port, self.username, self.password, timeout=3)
+            self.client.connect(self.hostname, self.port, self.username, self.password,
+                                timeout=3, look_for_keys=False)
             logger.debug(f"SSH communication to {self.hostname} is OK")
             logger.debug(f"Invoking shell")
             self.shell = self.client.invoke_shell()
