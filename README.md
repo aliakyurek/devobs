@@ -25,12 +25,14 @@ Ensure that classname fields are correctly set.
    * Communication (comm) class names must be based on the name of Python classes under ```backend/comm.py```
 
 4. Start the application by:
-- For Windows: ```devobs.bat ```
+- For Windows: ```devobs```
 - For Linux:
-  - First, enable execution```chmod +x devobs.sh``` 
+  - First, allow execution```chmod +x devobs.sh``` 
   - Then run ```./devobs.sh```
+- <b>NOTE:</b> If you update the software by pulling new resources, delete the ```myenv``` folder to for the script to install new requirements.
 
 ## Visuals
+### Command Line Interface
 ![Image](static/images/screenshot_01.png)
 Description of the fields in the output
 * Label: This is the name assigned to the device in the configuration database file
@@ -45,6 +47,9 @@ The tool queries the device based on this IP address
   *  This is supported by devices like Siemens SCALANCE.
 * State: This is current state of access. If there's no problem communicating with the device, "OK" will be shown here.
 If it's not "OK", "Fail" and reason of the fail, will be shown.
+### Web UI
+When the application started with ```-d``` flag, a web server started at port 5000, and you can see the devices in web via http://localhost:5000 
+![Image](static/images/screenshot_02.png)
 ## Supported Devices
 | Device                                 | Ping<br/>check | SSH<br/>check | Device Type | FW version | Up time | Custom features        |
 |----------------------------------------|----------------|---------------|-------------|------------|---------|------------------------|

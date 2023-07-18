@@ -7,7 +7,7 @@ Contact: aliakyurek@gmail.com
 
 from abc import ABC
 import re
-from .comm import CommStage
+from .comm import *
 import logging
 logger = logging.getLogger(__name__)
 
@@ -15,11 +15,12 @@ logger = logging.getLogger(__name__)
 class Attributes:
     STATE = "state"
     LABEL = "label"
+    IP_ADDRESS = "ip_address"
+    INTERFACE = "interface"
     FIRMWARE_VERSION = "firmware_version"
     SYS_UPTIME = "sys_uptime"
     DEV_TYPE = "device_type"
-    IP_ADDRESS = "ip_address"
-    INTERFACE = "interface"
+    WEBSERVER = "web_server"
     LIST = {
         LABEL: "Label",
         IP_ADDRESS: "IP Address",
@@ -27,9 +28,9 @@ class Attributes:
         DEV_TYPE: "Device Type",
         FIRMWARE_VERSION: "Firmware Version",
         SYS_UPTIME: "System Up Time",
-        STATE: "State"
+        WEBSERVER: "Web Server",
     }
-
+Attributes.LIST[Attributes.STATE]="State"
 class Device(ABC):
     # Existing code ...
     def __init__(self, label, comm_interface):
@@ -45,7 +46,7 @@ class Device(ABC):
         self.attributes[name] = {
             "min_stage": min_stage,
             "get_func": get_func,
-            "parse_func": parse_func
+            "parse_func": parse_func,
         }
 
     def get_attribute(self, name):
@@ -85,12 +86,17 @@ class Device(ABC):
         if s == CommStage.AUTH_OK or s == CommStage.IP_OK:
             r = "OK"
         elif s == CommStage.AUTH_TRY:
-            r = "Fail (Auth.)"
+            r = "Auth. failed"
         elif s == CommStage.PROT_TRY:
-            r = "Fail (Prot.)"
+            r = "Protocol failed"
         elif s == CommStage.IP_TRY:
-            r = "Fail (Ping.)"
+            r = "Ping failed"
         return r
+
+    def get_prompt(self):
+        if isinstance(self.comm_interface, SSHCommInterface):
+            return self.comm_interface.prompt
+        return ""
 
     def begin(self):
         self.comm_interface.establish()

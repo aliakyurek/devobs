@@ -1,0 +1,14 @@
+#terminalText {
+   min-height: 300px; /* Adjust this value as needed */
+   max-height: 400px; /* Adjust this value as needed */
+   overflow-y: scroll;
+}
+.user,.device {
+    font-family: Consolas,monospace
+}
+.user::before {
+  content: "\1F464"
+}
+.device::before {
+  content: "\1F916"
+}

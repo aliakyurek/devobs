@@ -13,7 +13,7 @@ from paramiko.ssh_exception import *
 import logging
 import sys
 logger = logging.getLogger(__name__)
-logging.getLogger('paramiko').setLevel(logging.CRITICAL + 1)
+logging.getLogger('paramiko').setLevel(logging.getLogger().level)
 
 class CommStage:
     NOT_SET = 0
@@ -76,6 +76,7 @@ class SSHCommInterface(TCPCommInterface):
         self.password = password
         self.client = None
         self.shell = None
+        self.prompt = None
 
     def establish(self):
         super().establish()
@@ -91,6 +92,7 @@ class SSHCommInterface(TCPCommInterface):
             logger.debug(f"SSH communication to {self.hostname} is OK")
             logger.debug(f"Invoking shell")
             self.shell = self.client.invoke_shell()
+            self.prompt = self.execute_request('')
             logger.debug(f"SSH shell acquired")
         except AuthenticationException as e:
             self.stage = CommStage.AUTH_TRY
@@ -103,6 +105,7 @@ class SSHCommInterface(TCPCommInterface):
         else:
             self.stage = CommStage.PROT_OK
             self.stage = CommStage.AUTH_OK
+
 
     def execute_request(self, command):
         """Implement SSH command execution logic here."""

@@ -5,7 +5,5 @@ Author: Ali G. Akyurek
 Contact: aliakyurek@gmail.com
 """
 
-VERSION = "0.1"
+VERSION = "v0.2"
 
-def print_error(message):
-    print(f"\nError: {message}")

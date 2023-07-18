@@ -3,3 +3,7 @@ ping3==4.0.4
 PyYAML==6.0
 rich==13.4.2
 tqdm==4.65.0
+Flask==2.3.2
+pandas==2.0.3
+humanize==4.7.0
+apscheduler==3.10.1

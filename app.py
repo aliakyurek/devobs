@@ -5,39 +5,34 @@ Author: Ali G. Akyurek
 Contact: aliakyurek@gmail.com
 """
 
+import logging
+import argparse
+
+parser = argparse.ArgumentParser()
+group = parser.add_mutually_exclusive_group()
+parser.add_argument('-v', '--verbose', action='store_true', help='enable verbose mode')
+group.add_argument('-l', '--list', action='store_true', help='list supported devices')
+group.add_argument('-d', '--daemon', action='store_true', help='start websocket daemon')
+
+# Parse the command-line arguments
+args = parser.parse_args()
+# Set up logging configuration
+logging.basicConfig(level=logging.DEBUG if args.verbose else logging.WARNING,
+                    format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s')
+
 from backend.device_manager import DeviceManager, InvalidDbError
+from frontend import wserver
 from rich.table import Table
 from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from tqdm import tqdm
 import common
-from common import print_error
-import sys
-import argparse
-import logging
 
-if __name__ == '__main__':
-    # Create the argument parser
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose mode')
+import sqlite3
 
-    # Parse the command-line arguments
-    args = parser.parse_args()
-    # Set up logging configuration
-    logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s')
-
-    # Create a logger
-    logger = logging.getLogger(__name__)
-
-    # Example usage of logging
-    logger.debug('Running tool in debug mode')
-
-    console = Console()
-    console.print(Panel(f"Device Observer v{common.VERSION}", title="[green]Dev", subtitle="[red]Obs", expand=False))
-
-    dm = DeviceManager()
+def show_devices():
+    dm = DeviceManager.get_instance()
     try:
         num_devices, num_attrs = dm.init_from_db("data/config.yml")
 
@@ -47,14 +42,15 @@ if __name__ == '__main__':
             desc = f"{num_devices} devices registered. Enumerating..."
             progressor = tqdm(total=num_devices*num_attrs, ncols=75, desc=desc, leave=False,
                               bar_format="{desc} {percentage:3.0f}%|{bar}|")
-            headers,rows = dm.dump_values(progressor)
+            df = dm.tabularize_devices(progressor).copy()
 
             table = Table(show_lines=True, box=box.ASCII)
-            for h in headers:
+            for h in df.columns:
                 table.add_column(h)
             table.columns[0].style = "cyan"
-            for r in rows:
-                r[-1] = ["[red]","[green]"][r[-1] == "OK"] + r[-1]
+            df['State'] = df['State'].apply(lambda x: '[green]' + x if x == 'OK' else '[red]' + x)
+
+            for _, r in df.iterrows():
                 table.add_row(*r)
 
             console.print(table)
@@ -69,3 +65,37 @@ if __name__ == '__main__':
         # Handle any other unexpected exceptions
         print("An error occurred:", str(e))
     print("")
+
+def show_supported_devices():
+    dm = DeviceManager.get_instance()
+    dm.init_devicemap()
+    headers, rows = dm.tabularize_devicemap()
+
+    table = Table(show_lines=True, box=box.ASCII)
+    for h in headers:
+        table.add_column(h)
+    table.columns[0].style = "cyan"
+    for r in rows:
+        table.add_row(*r)
+
+    console.print(table)
+
+if __name__ == '__main__':
+    # Create the argument parser
+    # Create a logger
+    logger = logging.getLogger(__name__)
+
+    # Example usage of logging
+    logger.debug('Running tool in debug mode')
+
+    console = Console()
+    console.print(Panel(f"Device Observer {common.VERSION}", title="[green]Dev", subtitle="[red]Obs", expand=False))
+
+    if args.list:
+        show_supported_devices()
+    else:
+        show_devices()
+
+    if args.daemon:
+        wserver.main()
+
