@@ -87,7 +87,6 @@ self.add_attribute(Attributes.DEV_TYPE, CommStage.AUTH_OK, 'show system hardware
 ## Contact
 For problems, ideas, discussions etc. You may contact me at aliakyurek@gmail.com
 ## Roadmap
-* Web based management
 * Not only diagnostic but also device management
 * Not only CLI/SSH but also SNMP for queries
 * Periodic updates
